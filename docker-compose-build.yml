@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  app:
+    build : 
+      args:
+        - http_proxy
+        - https_proxy
+      context: ./app
+    image:  h4nyu/mlboard_client

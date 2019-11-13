@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  db:
+    image: h4nyu/mlboard_db
+
+  migration: 
+    image: h4nyu/mlboard_migration
+    depends_on:
+      - db
+  api: 
+    image: h4nyu/mlboard_app
+    command: sh start_api.sh
+    depends_on:
+      - migration
+
+  app: 
+    build:
+      context: ./
+      args:
+        - http_proxy
+        - https_proxy
+    image: h4nyu/mlboard_client
+    volumes:
+      - ./:/srv
+    depends_on:
+      - api
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: ${SUBNET}
+

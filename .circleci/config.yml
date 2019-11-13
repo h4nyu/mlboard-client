@@ -1,0 +1,64 @@
+version: 2
+
+jobs:
+  test:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+            docker-compose -v
+
+      - run:
+          name: Build Images
+          command: |
+            docker-compose build --parallel
+
+      - run:
+          name: Tpye check App
+          command: |
+            docker-compose run --rm app mypy .
+
+      - run:
+          name: Lint App
+          command: |
+            docker-compose run --rm app sh fix_lint.sh
+
+      - run:
+          name: Test App
+          command: |
+            docker-compose run --rm app pytest
+
+  deploy:
+    machine: true
+    filters:
+      branches:
+        only:
+          - master
+    steps:
+      - checkout
+      - run:
+          name: Install Docker Compose
+          command: |
+            curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
+            chmod +x ~/docker-compose
+            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+            docker-compose -v
+
+      - run:
+          name: Build Production Images
+          command: |
+            docker-compose run --rm -e TWINE_USERNAME -e TWINE_PASSWORD app sh dist.sh
+
+workflows:
+  version: 2
+  test_and_deploy:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
