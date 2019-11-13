@@ -39,6 +39,8 @@ jobs:
       branches:
         only:
           - master
+      tags:
+        only: /.*/
     steps:
       - checkout
       - run:
@@ -50,7 +52,7 @@ jobs:
             docker-compose -v
 
       - run:
-          name: Build Production Images
+          name: Push To Pypi
           command: |
             docker-compose run --rm -e TWINE_USERNAME -e TWINE_PASSWORD app sh dist.sh
 
