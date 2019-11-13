@@ -25,12 +25,3 @@ services:
       - ./:/srv
     depends_on:
       - api
-
-networks:
-  default:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: ${SUBNET}
-
