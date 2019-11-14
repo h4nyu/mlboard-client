@@ -39,8 +39,6 @@ jobs:
       branches:
         only:
           - master
-      tags:
-        only: /.*/
     steps:
       - checkout
       - run:
