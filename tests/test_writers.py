@@ -18,11 +18,11 @@ def writer() -> Writer:
 
 
 def test_add_scalar(writer: Writer) -> None:
-    writer.add_scaler('aaa/test', 1)
+    writer.add_scalar('aaa/test', 1)
 
 
 def test_add_scalars(writer: Writer) -> None:
-    writer.add_scalers({
+    writer.add_scalars({
         'aaa': random(),
         'bbb': random(),
         'ccc': random(),

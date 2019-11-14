@@ -45,7 +45,7 @@ class Writer:
         self._trace_id_map[name] = res.json()
         return res.json()
 
-    def add_scaler(self, name: str, value: float, ts: t.Optional[datetime] = None) -> int:
+    def add_scalar(self, name: str, value: float, ts: t.Optional[datetime] = None) -> int:
         trace_id = self.register_trace(name)
         res = requests.post(
             urljoin(self.url, 'point/add-scalar'),
@@ -58,7 +58,7 @@ class Writer:
         res.raise_for_status()
         return res.json()
 
-    def add_scalers(self, values: t.Dict[str, float], ts: t.Optional[datetime] = None) -> int:
+    def add_scalars(self, values: t.Dict[str, float], ts: t.Optional[datetime] = None) -> int:
         _values = keymap(self.register_trace)(values)
         res = requests.post(
             urljoin(self.url, 'point/add-scalars'),
