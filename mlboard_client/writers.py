@@ -28,6 +28,7 @@ class Writer:
                 "params": params,
             }
         )
+        res.raise_for_status()
         return res.json()
 
     def register_trace(self, name: str) -> UUID:
@@ -40,6 +41,7 @@ class Writer:
                 'workspace_id': self._workspace_id,
             }
         )
+        res.raise_for_status()
         self._trace_id_map[name] = res.json()
         return res.json()
 
@@ -53,6 +55,7 @@ class Writer:
                 "ts": ts,
             }
         )
+        res.raise_for_status()
         return res.json()
 
     def add_scalers(self, values: t.Dict[str, float], ts: t.Optional[datetime] = None) -> int:
@@ -64,4 +67,5 @@ class Writer:
                 "ts": ts,
             }
         )
+        res.raise_for_status()
         return res.json()
