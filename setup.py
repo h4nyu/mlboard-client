@@ -4,7 +4,6 @@
 from setuptools import setup
 
 requires = [
-    "cytoolz",
     "requests",
 ]
 
@@ -21,7 +20,7 @@ dev_requires = [
 
 setup(
     name="mlboard_client",
-    version="0.0.6",
+    version="0.0.7",
     description="mlboard client",
     author='Xinyuan Yao',
     author_email='yao.ntno@google.com',
