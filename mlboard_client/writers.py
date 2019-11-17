@@ -58,7 +58,7 @@ class Writer:
         return res.json()
 
     def add_scalars(self, values: t.Dict[str, float], ts: t.Optional[datetime] = None) -> int:
-        _values = {self.register_trace(v): v for k, v in values.items()}
+        _values = {self.register_trace(k): v for k, v in values.items()}
         res = requests.post(
             urljoin(self.url, 'point/add-scalars'),
             json={
