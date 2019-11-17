@@ -3,7 +3,6 @@ import requests
 from uuid import UUID
 from urllib.parse import urljoin
 from datetime import datetime
-from cytoolz.curried import keymap
 
 
 class Writer:
@@ -59,7 +58,6 @@ class Writer:
         return res.json()
 
     def add_scalars(self, values: t.Dict[str, float], ts: t.Optional[datetime] = None) -> int:
-        _values = keymap()(values)
         _values = {self.register_trace(v): v for k, v in values.items()}
         res = requests.post(
             urljoin(self.url, 'point/add-scalars'),

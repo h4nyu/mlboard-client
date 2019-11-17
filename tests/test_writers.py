@@ -27,4 +27,3 @@ def test_add_scalars(writer: Writer) -> None:
         'bbb': random(),
         'ccc': random(),
     })
-
