@@ -2,10 +2,18 @@ from mlboard_client.writers import Writer
 from random import random
 import pytest
 from datetime import datetime
+from logging import getLogger, StreamHandler, Formatter, DEBUG
 
 
 @pytest.fixture
 def writer() -> Writer:
+    logger = getLogger("LogTest")
+    logger.setLevel(DEBUG)
+    stream_handler = StreamHandler()
+    stream_handler.setLevel(DEBUG)
+    handler_format = Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    stream_handler.setFormatter(handler_format)
+    logger.addHandler(stream_handler)
     return Writer(
         'http://api:5000/',
         'test0',
@@ -14,7 +22,8 @@ def writer() -> Writer:
             'p1': {
                 'p3': 'fasdfa'
             },
-        }
+        },
+        logger=logger,
     )
 
 
