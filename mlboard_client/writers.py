@@ -3,7 +3,7 @@ import requests
 from requests import Response
 from uuid import UUID
 from urllib.parse import urljoin
-from datetime import datetime
+from datetime import datetime, timezone
 from json import dumps
 
 from logging import Logger
@@ -30,11 +30,12 @@ class Writer:
         return requests.post(
             url,
             data=dumps(data, cls=CustomJSONEncoder),
+            headers={'Content-type': 'application/json', 'Accept': 'text/plain'}
         )
 
     def register_workspace(self, name: str, params: t.Dict[str, t.Any]) -> UUID:
         res = self._post(
-            urljoin(self.url, 'workspace'),
+            urljoin(self.url, 'workspace/register'),
             data={
                 "name": name,
                 "params": params,
@@ -47,7 +48,7 @@ class Writer:
         if name in self._trace_id_map:
             return self._trace_id_map[name]
         res = self._post(
-            urljoin(self.url, 'trace'),
+            urljoin(self.url, 'trace/register'),
             data={
                 "name": name,
                 'workspace_id': self._workspace_id,
@@ -57,28 +58,14 @@ class Writer:
         self._trace_id_map[name] = res.json()
         return res.json()
 
-    def add_scalar(self, name: str, value: float, ts: t.Optional[datetime] = None) -> int:
-        trace_id = self.register_trace(name)
-        res = self._post(
-            urljoin(self.url, 'point/add-scalar'),
-            data={
-                "trace_id": trace_id,
-                "value": value,
-                "ts": ts,
-            }
-        )
-        res.raise_for_status()
-        if self._logger is not None:
-            self._logger.info(f"{self.workspace_name} - add_scalar '{name}': {value}")
-        return res.json()
-
     def add_scalars(self, values: t.Dict[str, float], ts: t.Optional[datetime] = None) -> int:
         _values = {self.register_trace(k): v for k, v in values.items()}
+        _ts = ts if ts is not None else datetime.now(timezone.utc)
         res = self._post(
             urljoin(self.url, 'point/add-scalars'),
             data={
                 "values": _values,
-                "ts": ts,
+                "ts": _ts,
             }
         )
         res.raise_for_status()
