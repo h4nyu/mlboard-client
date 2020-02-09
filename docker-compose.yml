@@ -10,7 +10,6 @@ services:
       - db
   api: 
     image: h4nyu/mlboard_app
-    command: sh start_api.sh
     depends_on:
       - migration
 

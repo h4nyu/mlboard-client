@@ -1,7 +1,6 @@
 from mlboard_client.writers import Writer
-from random import random
 import pytest
-from datetime import datetime
+from datetime import datetime, timezone
 from logging import getLogger, StreamHandler, Formatter, DEBUG
 
 
@@ -27,17 +26,13 @@ def writer() -> Writer:
     )
 
 
-def test_add_scalar(writer: Writer) -> None:
-    writer.add_scalar('aaa/test', 1)
-
-
 @pytest.mark.parametrize("ts", [
     (None),
-    (datetime.utcnow())
+    (datetime.now(timezone.utc))
 ])
 def test_add_scalars(writer: Writer, ts) -> None:
     writer.add_scalars({
-        'aaa': random(),
-        'bbb': random(),
-        'ccc': random(),
+        f"{k}": 0.1
+        for k
+        in range(100)
     }, ts=ts)
