@@ -2,7 +2,6 @@ from mlboard_client.writers import Writer
 import pytest
 from datetime import datetime, timezone
 from logging import getLogger, StreamHandler, Formatter, DEBUG
-import time
 
 
 @pytest.fixture
