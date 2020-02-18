@@ -14,13 +14,12 @@ dev_requires = [
     "autopep8",
     "mypy",
     "pytest-mypy",
-    "typing_extensions",
     "twine",
 ]
 
 setup(
     name="mlboard_client",
-    version="0.0.9.rc1",
+    version="0.0.9",
     description="mlboard client",
     author='Xinyuan Yao',
     author_email='yao.ntno@google.com',

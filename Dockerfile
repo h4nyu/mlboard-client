@@ -1,9 +1,6 @@
-FROM python:3.8-alpine AS prod
+FROM python:3.8-slim
 
 WORKDIR /srv
 COPY ./ /srv
 
-RUN apk update \
-    && apk add --no-cache gcc libc-dev openssl-dev libffi-dev inotify-tools \
-    && pip install --no-cache-dir -e .[dev] \
-    && apk del gcc libc-dev openssl-dev libffi-dev
+RUN pip install --no-cache-dir -e .[dev]
