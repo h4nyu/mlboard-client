@@ -19,12 +19,15 @@ dev_requires = [
 
 setup(
     name="mlboard_client",
-    version="0.0.10",
+    version="0.0.11",
     description="mlboard client",
     author='Xinyuan Yao',
     author_email='yao.ntno@google.com',
     license="MIT",
     packages=['mlboard_client'],
+    package_data={
+        "mlboard_client": ["py.typed"],
+    },
     install_requires=requires,
     extras_require={
         'dev': dev_requires
