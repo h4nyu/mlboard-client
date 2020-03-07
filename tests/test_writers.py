@@ -1,4 +1,4 @@
-from mlboard_client.writers import Writer
+from mlboard_client import Writer
 import pytest
 from datetime import datetime, timezone
 from logging import getLogger, StreamHandler, Formatter, DEBUG
