@@ -20,7 +20,7 @@ dev_requires = [
 
 setup(
     name="mlboard_client",
-    version="0.0.11",
+    version="0.0.12",
     description="mlboard client",
     author="Xinyuan Yao",
     author_email="yao.ntno@google.com",
